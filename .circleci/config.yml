@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: /home/ubuntu/
+    working_directory: /tmp
     docker:
       - image: circleci/python:3.6.2-stretch-browsers
     steps:
@@ -16,5 +16,5 @@ jobs:
           name: Deploy to S3 if branch is S3staticweb.
           command: |
             if [ "${CIRCLE_BRANCH}" == "S3staticweb" ]; then
-              aws s3 sync /home/ubuntu/S3ContinuousDeploy s3://s3awscicd --delete
+              aws s3 sync /tmp/S3ContinuousDeploy s3://s3awscicd --delete
             fi      
