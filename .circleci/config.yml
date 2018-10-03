@@ -1,8 +1,20 @@
-dependencies:
-    override:
-        - sudo pip install awscli
-deployment:
-  prod:
-    branch: master
-    commands:
-      - aws s3 sync /home/ubuntu/S3ContinuousDeploy s3://s3awscicd --delete
+version: 2
+jobs:
+  build:
+    working_directory: /home/ubuntu/
+    docker:
+      - image: circleci/python:3.6.2-stretch-browsers
+    steps:
+      - checkout
+      - run:
+          name: Deploying S3 site.
+          command: echo Deploying S3 site.
+      - run:
+          name: Installing dependencies.
+          command: sudo pip install awscli
+      - deploy:
+          name: Deploy to S3 if branch is S3staticweb.
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "S3staticweb" ]; then
+              aws s3 sync /home/ubuntu/S3ContinuousDeploy s3://s3awscicd --delete
+            fi      
