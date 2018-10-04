@@ -13,12 +13,10 @@ jobs:
             sudo apt-get install -y awscli
       - deploy:
           name: deploy
-          steps:
-            -checkout
-            -run: |
-               set -eux -o pipefail
-               if [ "${CIRCLE_BRANCH}" = "S3staticweb" ]; then
-               aws s3 sync /home/ubuntu/S3ContinuousDeploy s3://s3awscicd --delete
-               else
-               echo "Not master branch, dry run only"
-              fi
+          command: |
+            set -eux -o pipefail
+            if [ "${CIRCLE_BRANCH}" = "S3staticweb" ]; then
+            aws s3 sync /home/ubuntu/S3ContinuousDeploy s3://s3awscicd --delete
+            else
+            echo "Not master branch, dry run only"
+            fi
