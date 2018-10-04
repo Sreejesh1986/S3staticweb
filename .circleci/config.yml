@@ -15,6 +15,7 @@ jobs:
           name: deploy
           command: |
             set -eux -o pipefail
+            aws configure set default.s3.signature_version s3v4
             if [ "${CIRCLE_BRANCH}" = "s3staticsite" ]; then
               aws s3 sync . s3://s3awscicd --delete
             else
