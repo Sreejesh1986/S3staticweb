@@ -17,7 +17,7 @@ jobs:
             set -eux -o pipefail
             aws configure set default.s3.signature_version s3v4
             if [ "${CIRCLE_BRANCH}" = "s3staticsite" ]; then
-              aws s3 sync . s3://s3awscicd --delete
+              aws s3 sync . s3://s3awscicd --delete --region ap-south-1
             else
               echo "Not master branch, dry run only"
             fi
